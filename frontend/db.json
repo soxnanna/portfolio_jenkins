@@ -1,0 +1,28 @@
+{
+  "projets": [
+    {
+      "id": "1",
+      "libelle": "Site Web E-commerce",
+      "sourceImage": "html-pages/listes-projets/img/image1.png",
+      "description": "Un site e-commerce complet avec catalogue produits, panier d'achat et système de paiement. Développé avec HTML, CSS et JavaScript.",
+      "technologie": "HTML, CSS, JavaScript",
+      "dateCreation": "2024-01-15"
+    },
+    {
+      "id": "2",
+      "libelle": "Application Mobile Fitness",
+      "sourceImage": "html-pages/listes-projets/img/image2.jpg",
+      "description": "Application mobile de suivi de fitness permettant de gérer les entraînements, suivre les calories et visualiser les progrès.",
+      "technologie": "Flutter, Firebase",
+      "dateCreation": "2024-02-20"
+    },
+    {
+      "id": "3",
+      "libelle": "Dashboard Analytique",
+      "sourceImage": "html-pages/listes-projets/img/image3.jpg",
+      "description": "Tableau de bord de visualisation de données avec graphiques interactifs et rapports en temps réel.",
+      "technologie": "React, Chart.js, Node.js",
+      "dateCreation": "2024-03-10"
+    }
+  ]
+}

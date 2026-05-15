@@ -1,0 +1,87 @@
+services:
+
+  # ═══════════════════════════════════════════════════════════
+  # SERVICE 1 — BASE DE DONNÉES
+  # Image officielle MongoDB 7
+  # Les données sont stockées dans le volume mongo_data :
+  # elles survivent aux redémarrages des conteneurs
+  # ═══════════════════════════════════════════════════════════
+  mongodb:
+    image: mongo:7
+    container_name: portfolio-mongo
+    restart: unless-stopped
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - portfolio-net
+    # Healthcheck : Docker vérifie que MongoDB est prêt
+    # toutes les 10s, jusqu'à 5 tentatives
+    # Le backend ne démarrera QU'APRÈS ce healthcheck OK
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  # ═══════════════════════════════════════════════════════════
+  # SERVICE 2 — BACKEND
+  # Construit depuis backend/Dockerfile
+  # Ne démarre QUE quand MongoDB est healthy
+  # Port 3001 NON exposé vers l'extérieur :
+  # seul Nginx y accède via le réseau interne
+  # ═══════════════════════════════════════════════════════════
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: portfolio-api
+    restart: unless-stopped
+    environment:
+      # "mongodb" = nom du service ci-dessus
+      # Docker DNS interne résout ce nom en IP du conteneur MongoDB
+      - MONGO_URI=mongodb://mongodb:27017/portfolioDB
+      - PORT=3001
+      - NODE_ENV=production
+    depends_on:
+      mongodb:
+        condition: service_healthy   # attend que MongoDB réponde
+    networks:
+      - portfolio-net
+
+  # ═══════════════════════════════════════════════════════════
+  # SERVICE 3 — FRONTEND
+  # Construit depuis frontend/Dockerfile (multi-stage)
+  # Seul port exposé vers ta machine : 80
+  # Nginx sert React ET fait proxy vers le backend
+  # ═══════════════════════════════════════════════════════════
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: portfolio-web
+    restart: unless-stopped
+    ports:
+      - "80:80"     # http://localhost → Nginx → React + proxy /projets
+    depends_on:
+      - backend
+    networks:
+      - portfolio-net
+
+# ═══════════════════════════════════════════════════════════
+# VOLUME
+# Stockage persistant géré par Docker
+# Les données MongoDB survivent à : docker compose down
+# Supprimées seulement avec : docker compose down -v
+# ═══════════════════════════════════════════════════════════
+volumes:
+  mongo_data:
+
+# ═══════════════════════════════════════════════════════════
+# RÉSEAU INTERNE
+# Les 3 conteneurs communiquent entre eux par leur nom de service
+# Aucun port interne (3001, 27017) n'est accessible depuis ta machine
+# ═══════════════════════════════════════════════════════════
+networks:
+  portfolio-net:
+    driver: bridge

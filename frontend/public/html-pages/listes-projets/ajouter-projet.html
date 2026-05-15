@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ajouter un nouveau projet</title>
+  <link rel="stylesheet" href="../css-pages/ajouter-projet.css" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Sora:wght@600;700&display=swap"
+    rel="stylesheet" />
+</head>
+<body>
+
+  <div class="page-wrapper">
+    <div class="card">
+
+      <!-- Bouton retour -->
+      <a href="lister-projet.html" class="btn-back">
+        🔙 Retour à la liste
+      </a>
+
+      <h1 class="form-title">Ajouter un nouveau projet</h1>
+
+      <form action="liste-projets.html" method="get" class="project-form">
+         <!-- Libellé -->
+        <div class="form-group">
+          <label for="libelle">Libellé du projet :</label>
+          <input type="text" id="libelle" name="libelle" placeholder="Ex: Mon site web" required />
+        </div>
+        <!-- Description -->
+        <div class="form-group">
+          <label for="description">Description :</label>
+          <textarea id="description" name="description" rows="5" placeholder="Décrivez votre projet..."></textarea>
+        </div>
+         <!-- URL image -->
+        <div class="form-group">
+          <label for="image">URL de l'image :</label>
+          <input type="url" id="image" name="image" placeholder="https://example.com/image.jpg" />
+        </div>
+        <!-- Technologies -->
+        <div class="form-group">
+          <label for="tech1">Technologie 1 :</label>
+          <input type="text" id="tech1" name="tech1" placeholder="Ex: HTML" />
+        </div>
+
+        <div class="form-group">
+          <label for="tech2">Technologie 2 :</label>
+          <input type="text" id="tech2" name="tech2" placeholder="Ex: CSS" />
+        </div>
+
+        <div class="form-group">
+          <label for="tech3">Technologie 3 :</label>
+          <input type="text" id="tech3" name="tech3" placeholder="Ex: JavaScript" />
+        </div>
+        
+        <!-- Actions -->
+        <div class="form-actions">
+          <button type="submit" class="btn-primary">Créer le projet</button>
+          <a href="lister-projet.html" class="btn-cancel">Annuler</a>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+</body>
+
+</html>
+
