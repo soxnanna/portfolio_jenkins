@@ -13,7 +13,7 @@ pipeline {
         // ─────────────────────────────────────────────
         stage('Clone Repository') {
             steps {
-                git branch: 'master',
+                git branch: 'main',
                     credentialsId: 'github_creds',
                     url: 'https://github.com/soxnanna/portfolio_jenkins.git'
             }
