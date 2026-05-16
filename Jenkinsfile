@@ -25,7 +25,7 @@ pipeline {
         stage('Build Backend') {
             steps {
                 dir('backend') {
-                    sh 'docker build -t $BACKEND_IMAGE .'
+                    sh 'docker build --no-cache -t $BACKEND_IMAGE .'
                 }
             }
         }
@@ -36,7 +36,7 @@ pipeline {
         stage('Build Frontend') {
             steps {
                 dir('frontend') {
-                    sh 'docker build -t $FRONTEND_IMAGE .'
+                    sh 'docker build --no-cache -t $FRONTEND_IMAGE .'
                 }
             }
         }
