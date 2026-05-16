@@ -46,15 +46,16 @@ pipeline {
         // Récupère le fichier .env depuis les credentials Jenkins
         // ─────────────────────────────────────────────
         stage('Start Containers') {
-            steps {
-                withCredentials([file(credentialsId: 'portfolio-env', variable: 'ENV_FILE')]) {
-                    sh 'cp $ENV_FILE .env'
-                    sh 'docker compose down'
-                    sh 'docker compose --env-file .env up -d'
-                    sh 'rm -f .env'
-                }
-            }
+    steps {
+        withCredentials([file(credentialsId: 'portfolio-env', variable: 'ENV_FILE')]) {
+            sh 'docker rm -f portfolio-mongo portfolio-api portfolio-web || true'
+            sh 'docker compose down --remove-orphans'
+            sh 'cp $ENV_FILE .env'
+            sh 'docker compose --env-file .env up -d'
+            sh 'rm -f .env'
         }
+    }
+}
 
         // ─────────────────────────────────────────────
         // STAGE 5 — Vérification des conteneurs actifs
