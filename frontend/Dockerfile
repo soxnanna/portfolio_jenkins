@@ -16,7 +16,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Installer toutes les dépendances (y compris devDependencies pour le build)
-RUN npm install --legacy-peer-deps && npm install react-scripts
+RUN npm install --legacy-peer-deps
 
 # Copier le code source
 COPY . .
